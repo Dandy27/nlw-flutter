@@ -60,7 +60,14 @@ class _LoginPageState extends State<LoginPage> {
                         const EdgeInsets.only(left: 40, right: 40, top: 30),
                     child: SocialLoginbutton(
                       onTap: () async {
-                       
+                        GoogleSignIn _googleSignIn =
+                            GoogleSignIn(scopes: ['email']);
+                        try {
+                          final response = await _googleSignIn.signIn();
+                          print(response);
+                        } catch (error) {
+                          print(error);
+                        }
                       },
                     ),
                   )
