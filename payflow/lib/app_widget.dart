@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:payflow/shared/themes/app_collors.dart';
 
+import 'modules/home/home_page.dart';
 import 'modules/login/login_page.dart';
+import 'modules/splash.dart';
+import 'shared/themes/app_collors.dart';
 
 class AppWidget extends StatelessWidget {
   @override
@@ -10,8 +12,12 @@ class AppWidget extends StatelessWidget {
       title: 'Pay Flow',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: AppColors.primary),
-      // home: Splash(),
-      home: LoginPage(),
+      initialRoute: '/splash',
+      routes: {
+        "/splash": (context) => Splash(),
+        "/home": (context) => HomePage(),
+        "/login": (context) => LoginPage()
+      },
     );
   }
 }
