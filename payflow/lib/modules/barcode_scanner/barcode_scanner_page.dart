@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:payflow/shared/widgets/bottom_shet/bottom_shet_widget.dart';
 
 import '../../shared/themes/app_collors.dart';
 import '../../shared/themes/app_text_style.dart';
@@ -14,6 +15,14 @@ class BarcodeScannerPage extends StatefulWidget {
 class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
   @override
   Widget build(BuildContext context) {
+    return BottomShetWidget(
+      title: "Não foi possível identificar um código de barras",
+      subTitle: "Tente escanear novamente ou digite o código do seu boleto",
+      primarylabel: "Escaner novamente",
+      primaryOnPressed: () {},
+      secondaryLabel: "Digitar código",
+      secondaryOnPressed: () {},
+    );
     return SafeArea(
       top: true,
       bottom: true,
