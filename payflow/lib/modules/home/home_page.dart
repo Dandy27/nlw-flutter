@@ -70,15 +70,12 @@ class _HomePageState extends State<HomePage> {
             ),
             GestureDetector(
               onTap: () {
-                print('clicou');
+                Navigator.pushNamed(context, '/barcode_scanner');
               },
               child: Container(
-                child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.add_box_outlined,
-                    color: AppColors.background,
-                  ),
+                child: Icon(
+                  Icons.add_box_outlined,
+                  color: AppColors.background,
                 ),
                 width: 56,
                 height: 56,
