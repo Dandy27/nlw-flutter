@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:payflow/modules/barcode_scanner/barcode_scanner_controller.dart';
+import 'package:payflow/modules/barcode_scanner/barcode_scanner_status.dart';
 import 'package:payflow/shared/widgets/bottom_shet/bottom_shet_widget.dart';
 
 import '../../shared/themes/app_collors.dart';
@@ -13,59 +15,89 @@ class BarcodeScannerPage extends StatefulWidget {
 }
 
 class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
+  final controller = BarcodeScannerController();
+
+  @override
+  void initState() {
+    controller.getAvailableCameras();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BottomShetWidget(
-      title: "Não foi possível identificar um código de barras",
-      subTitle: "Tente escanear novamente ou digite o código do seu boleto",
-      primarylabel: "Escaner novamente",
-      primaryOnPressed: () {},
-      secondaryLabel: "Digitar código",
-      secondaryOnPressed: () {},
-    );
+    // return BottomShetWidget(
+    //   title: "Não foi possível identificar um código de barras",
+    //   subTitle: "Tente escanear novamente ou digite o código do seu boleto",
+    //   primarylabel: "Escaner novamente",
+    //   primaryOnPressed: () {},
+    //   secondaryLabel: "Digitar código",
+    //   secondaryOnPressed: () {},
+    // );
     return SafeArea(
       top: true,
       bottom: true,
       left: true,
       right: true,
-      child: RotatedBox(
-        quarterTurns: 1,
-        child: Scaffold(
-          // backgroundColor: Colors.black,
-          appBar: AppBar(
-            backgroundColor: Colors.black,
-            title: Text(
-              'Escaneie o código de barra do boleto',
-              style: TextStyles.buttonBackground,
-            ),
-            leading: BackButton(
-              color: AppColors.background,
-            ),
-            centerTitle: true,
+      child: Stack(
+        children: [
+          ValueListenableBuilder<BarcodeScannerStatus>(
+            valueListenable: controller.statusNotifier,
+            builder: (_, status, __) {
+              if (status.showCamera) {
+                return Container(
+                  child: status.cameraController!.buildPreview(),
+                );
+              } else {
+                return Container();
+              }
+            },
           ),
-          body: Column(
-            children: [
-              Expanded(
-                  child: Container(
-                color: Colors.black,
-              )),
-              Expanded(
-                  flex: 2,
-                  child: Container(
-                    color: Colors.transparent,
+          RotatedBox(
+            quarterTurns: 1,
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              appBar: AppBar(
+                backgroundColor: Colors.black,
+                title: Text(
+                  'Escaneie o código de barra do boleto',
+                  style: TextStyles.buttonBackground,
+                ),
+                leading: BackButton(
+                  color: AppColors.background,
+                ),
+                centerTitle: true,
+              ),
+              body: Column(
+                children: [
+                  Expanded(
+                      child: Container(
+                    color: Colors.black,
                   )),
-              Expanded(
-                  child: Container(
-                color: Colors.black,
-              )),
-            ],
+                  Expanded(
+                      flex: 2,
+                      child: Container(
+                        color: Colors.transparent,
+                      )),
+                  Expanded(
+                      child: Container(
+                    color: Colors.black,
+                  )),
+                ],
+              ),
+              bottomNavigationBar: SetLabelButtons(
+                  primarylabel: 'Insira o código',
+                  primaryOnPressed: () {},
+                  secondaryLabel: 'Insira o código',
+                  secondaryOnPressed: () {}),
+            ),
           ),
-          bottomNavigationBar: SetLabelButtons(
-              primarylabel: 'Insira o código',
-              primaryOnPressed: () {},
-              secondaryLabel: 'Insira o código',
-              secondaryOnPressed: () {}),
-        ),
+        ],
       ),
     );
   }
